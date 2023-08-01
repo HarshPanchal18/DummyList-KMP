@@ -1,11 +1,14 @@
 plugins {
     id("com.android.application")
+    id("org.jetbrains.compose")
     kotlin("android")
+    //kotlin("multiplatform")
 }
 
 android {
     namespace = "com.example.dummylist_kmp.android"
     compileSdk = 33
+
     defaultConfig {
         applicationId = "com.example.dummylist_kmp.android"
         minSdk = 24
@@ -13,6 +16,9 @@ android {
         versionCode = 1
         versionName = "1.0"
     }
+
+    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
+
     buildFeatures {
         compose = true
     }
@@ -30,8 +36,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     kotlinOptions {
         jvmTarget = "1.8"
@@ -45,5 +51,5 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling-preview:1.4.3")
     implementation("androidx.compose.foundation:foundation:1.4.3")
     implementation("androidx.compose.material:material:1.4.3")
-    implementation("androidx.activity:activity-compose:1.7.1")
+    //implementation("androidx.activity:activity-compose:1.7.1")
 }

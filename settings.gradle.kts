@@ -32,3 +32,4 @@ dependencyResolutionManagement {
 rootProject.name = "DummyList-KMP"
 include(":androidApp")
 include(":shared")
+include(":iosApp")

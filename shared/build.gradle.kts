@@ -2,6 +2,7 @@ plugins {
     kotlin("multiplatform")
     id("com.android.library")
     id("org.jetbrains.compose")
+    kotlin("plugin.serialization") version "1.8.21"
 }
 
 @OptIn(org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi::class)
@@ -32,6 +33,21 @@ kotlin {
                 //put your multiplatform dependencies here
                 implementation(compose.foundation)
                 implementation(compose.material)
+                implementation(compose.runtime)
+                @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
+                implementation(compose.components.resources)
+                implementation("media.kamel:kamel-image:0.6.0")
+
+                // MVVM Staff
+                api("dev.icerock.moko:mvvm-core:0.16.1")
+                api("dev.icerock.moko:mvvm-compose:0.16.1")
+
+                // Ktor Staff
+                implementation("io.ktor:ktor-client-core:2.3.1")
+                implementation("io.ktor:ktor-client-content-negotiation:2.3.1")
+                implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.1")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
+                implementation("io.ktor:ktor-client-logging:2.2.3")
             }
         }
 
@@ -46,20 +62,18 @@ kotlin {
                 api("androidx.activity:activity-compose:1.6.1")
                 api("androidx.appcompat:appcompat:1.6.1")
                 api("androidx.core:core-ktx:1.9.0")
-                //implementation("io.ktor:ktor-client-android:2.3.1")
+                implementation("io.ktor:ktor-client-android:2.3.1")
             }
         }
 
-        val iosX64Main by getting
-        val iosArm64Main by getting
-        val iosSimulatorArm64Main by getting
         val iosMain by getting {
-            dependsOn(commonMain)
-            iosX64Main.dependsOn(this)
-            iosArm64Main.dependsOn(this)
-            iosSimulatorArm64Main.dependsOn(this)
-
+            dependencies {
+                implementation("io.ktor:ktor-client-darwin:2.3.1")
+            }
         }
+        val iosX64Main by getting { dependsOn(iosMain) }
+        val iosArm64Main by getting { dependsOn(iosMain) }
+        val iosSimulatorArm64Main by getting { dependsOn(iosMain) }
     }
 }
 

@@ -36,6 +36,10 @@ kotlin {
                 implementation(compose.runtime)
                 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
+                implementation(compose.ui)
+                //implementation(compose.uiTooling)
+                //implementation(compose.preview)
+                //implementation(compose.materialIconsExtended)
                 implementation("media.kamel:kamel-image:0.6.0")
 
                 // MVVM Staff
@@ -63,6 +67,7 @@ kotlin {
                 api("androidx.appcompat:appcompat:1.6.1")
                 api("androidx.core:core-ktx:1.9.0")
                 implementation("io.ktor:ktor-client-android:2.3.1")
+                implementation(compose.preview)
             }
         }
 

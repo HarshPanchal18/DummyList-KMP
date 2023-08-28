@@ -1,8 +1,18 @@
 plugins {
+    kotlin("multiplatform")
     id("com.android.application")
     id("org.jetbrains.compose")
-    kotlin("android")
-    //kotlin("multiplatform")
+}
+
+kotlin {
+    android()
+    sourceSets {
+        val androidMain by getting {
+            dependencies {
+                implementation(project(":shared"))
+            }
+        }
+    }
 }
 
 android {
@@ -19,7 +29,7 @@ android {
 
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
 
-    buildFeatures {
+    /*buildFeatures {
         compose = true
     }
     composeOptions {
@@ -34,22 +44,25 @@ android {
         getByName("release") {
             isMinifyEnabled = false
         }
-    }
+    }*/
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
-    kotlinOptions {
+    kotlin {
+        jvmToolchain(17)
+    }
+    /*kotlinOptions {
         jvmTarget = "1.8"
-    }
+    }*/
 }
 
 dependencies {
     implementation(project(":shared"))
-    implementation("androidx.compose.ui:ui:1.4.3")
-    implementation("androidx.compose.ui:ui-tooling:1.4.3")
-    implementation("androidx.compose.ui:ui-tooling-preview:1.4.3")
-    implementation("androidx.compose.foundation:foundation:1.4.3")
-    implementation("androidx.compose.material:material:1.4.3")
-    //implementation("androidx.activity:activity-compose:1.7.1")
+    implementation(compose.ui)
+    implementation(compose.uiTooling)
+    implementation(compose.preview)
+    implementation(compose.material)
+    implementation(compose.material3)
+    implementation(compose.foundation)
 }

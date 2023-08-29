@@ -32,7 +32,7 @@ import presentation.theme.Color
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun ProductItemCellComponent(product: ProductEntity, onClick: (product: ProductEntity) -> Unit) {
+fun ProductItemCell(product: ProductEntity, onClick: (product: ProductEntity) -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()

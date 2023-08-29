@@ -6,13 +6,6 @@ plugins {
 
 kotlin {
     android()
-    sourceSets {
-        val androidMain by getting {
-            dependencies {
-                implementation(project(":shared"))
-            }
-        }
-    }
 }
 
 android {
@@ -27,11 +20,10 @@ android {
         versionName = "1.0"
     }
 
-    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
+    sourceSets["main"].manifest.srcFile("src/main/AndroidManifest.xml")
 
-    /*buildFeatures {
-        compose = true
-    }
+    buildFeatures.compose = true
+
     composeOptions {
         kotlinCompilerExtensionVersion = "1.4.7"
     }
@@ -44,7 +36,7 @@ android {
         getByName("release") {
             isMinifyEnabled = false
         }
-    }*/
+    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
@@ -52,9 +44,6 @@ android {
     kotlin {
         jvmToolchain(17)
     }
-    /*kotlinOptions {
-        jvmTarget = "1.8"
-    }*/
 }
 
 dependencies {

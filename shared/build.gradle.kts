@@ -12,22 +12,15 @@ kotlin {
     android {
         compilations.all {
             kotlinOptions {
-                jvmTarget = "1.8"
+                jvmTarget = "17"
             }
         }
     }
 
-    listOf(
-        iosX64(),
-        iosArm64(),
-        iosSimulatorArm64()
-    ).forEach {
-        it.binaries.framework {
-            baseName = "shared"
-        }
-    }
+    ios()
 
     sourceSets {
+        val ktorVersion = "2.3.2"
         val commonMain by getting {
             dependencies {
                 //put your multiplatform dependencies here
@@ -37,9 +30,6 @@ kotlin {
                 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
                 implementation(compose.ui)
-                //implementation(compose.uiTooling)
-                //implementation(compose.preview)
-                //implementation(compose.materialIconsExtended)
                 implementation("media.kamel:kamel-image:0.6.0")
 
                 // MVVM Staff
@@ -47,11 +37,12 @@ kotlin {
                 api("dev.icerock.moko:mvvm-compose:0.16.1")
 
                 // Ktor Staff
-                implementation("io.ktor:ktor-client-core:2.3.1")
-                implementation("io.ktor:ktor-client-content-negotiation:2.3.1")
-                implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.1")
+                implementation("io.ktor:ktor-client-core:$ktorVersion")
+                implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
+                implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
                 implementation("io.ktor:ktor-client-logging:2.2.3")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1")
             }
         }
 
@@ -66,19 +57,16 @@ kotlin {
                 api("androidx.activity:activity-compose:1.6.1")
                 api("androidx.appcompat:appcompat:1.6.1")
                 api("androidx.core:core-ktx:1.9.0")
-                implementation("io.ktor:ktor-client-android:2.3.1")
+                implementation("io.ktor:ktor-client-android:$ktorVersion")
                 implementation(compose.preview)
             }
         }
 
         val iosMain by getting {
             dependencies {
-                implementation("io.ktor:ktor-client-darwin:2.3.1")
+                api("io.ktor:ktor-client-darwin:$ktorVersion")
             }
         }
-        val iosX64Main by getting { dependsOn(iosMain) }
-        val iosArm64Main by getting { dependsOn(iosMain) }
-        val iosSimulatorArm64Main by getting { dependsOn(iosMain) }
     }
 }
 
@@ -88,5 +76,18 @@ android {
     defaultConfig {
         minSdk = 24
         targetSdk = 33
+    }
+
+    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
+    sourceSets["main"].res.srcDirs("src/androidMain/res")
+    sourceSets["main"].resources.srcDirs("src/commonMain/resources")
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    kotlin {
+        jvmToolchain(17)
     }
 }

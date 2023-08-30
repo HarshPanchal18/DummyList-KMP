@@ -19,6 +19,26 @@ kotlin {
 
     ios()
 
+    jvm("desktopApp") {
+        compilations.all {
+            kotlinOptions.jvmTarget = "17"
+        }
+    }
+
+    js(IR) {
+        browser {
+            testTask {
+                testLogging.showStackTraces = true
+                testLogging.showStandardStreams = true
+                useKarma {
+                    useChromeHeadless()
+                    //useFirefox()
+                }
+            }
+        }
+        binaries.executable()
+    }
+
     sourceSets {
         val ktorVersion = "2.3.2"
         val commonMain by getting {
@@ -65,6 +85,19 @@ kotlin {
         val iosMain by getting {
             dependencies {
                 api("io.ktor:ktor-client-darwin:$ktorVersion")
+            }
+        }
+
+        val iosX64Main by getting {
+            dependsOn(iosMain)
+        }
+        val iosArm64Main by getting {
+            dependsOn(iosMain)
+        }
+
+        val desktopAppMain by getting {
+            dependencies {
+                api(compose.preview)
             }
         }
     }

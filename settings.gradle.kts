@@ -33,3 +33,5 @@ rootProject.name = "DummyList-KMP"
 include(":androidApp")
 include(":shared")
 include(":iosApp")
+include(":desktopApp")
+include(":webApp")
